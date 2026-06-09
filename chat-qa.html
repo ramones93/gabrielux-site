@@ -246,7 +246,7 @@
       <input
         id="userInput"
         type="text"
-        placeholder="Ej: Dame una comedia argentina bien puntuada"
+        placeholder="Ej: Quiero una comedia argentina bien puntuada"
         autocomplete="off"
       />
       <button id="sendButton" type="submit">Enviar</button>
@@ -421,14 +421,17 @@
     });
 
     addMessage(
-      "🎬 Buenas. Soy tu recomendador de películas.\n\nEstoy para servirte: pedime algo tipo “una comedia argentina bien puntuada”, “algo de mafia”, “una peli con Darín” o “sorprendeme”.",
+      "🎬 Buenas. Soy tu recomendador de películas.\n\nPedime una peli por género, mood, país, actor o lo que tengas en mente.\nTambién podés arrancar con una opción rápida 👇",
       "bot",
       {
         buttons: [
           { label: "🎲 Sorprendeme", value: "sorprendeme con una película" },
-          { label: "🏆 Bien puntuada", value: "dame una película bien puntuada" },
-          { label: "🕵️ Mafia / crimen", value: "dame las mejores pelis de mafiosos" },
-          { label: "🇦🇷 Cine argentino", value: "quiero una comedia argentina" }
+          { label: "😂 Comedia", value: "recomendame una película de comedia" },
+          { label: "💥 Acción", value: "recomendame una película de acción" },
+          { label: "🎭 Drama", value: "recomendame una película de drama" },
+          { label: "💘 Romance", value: "recomendame una película romántica" },
+          { label: "👻 Terror", value: "recomendame una película de terror" },
+          { label: "🕵️ Suspenso", value: "recomendame una película de suspenso" }
         ]
       }
     );

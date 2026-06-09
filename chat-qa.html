@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QA Chat Películas</title>
+
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111c34;
+      --card: rgba(255, 255, 255, 0.08);
+      --text: #f8fafc;
+      --muted: #b7c3d7;
+      --accent: #75f4c8;
+      --line: rgba(255, 255, 255, 0.12);
+      --bot: #17223d;
+      --user: #2563eb;
+      --error: #f87171;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1e293b, var(--bg));
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .chat-shell {
+      width: min(920px, 100%);
+      height: min(780px, calc(100vh - 48px));
+      background: rgba(17, 28, 52, 0.92);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.35);
+    }
+
+    .chat-header {
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .chat-title {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .chat-title strong {
+      font-size: 18px;
+    }
+
+    .chat-title span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .status {
+      font-size: 13px;
+      color: var(--accent);
+    }
+
+    .messages {
+      padding: 22px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .message {
+      max-width: 78%;
+      padding: 14px 16px;
+      border-radius: 18px;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .message.bot {
+      align-self: flex-start;
+      background: var(--bot);
+      border: 1px solid var(--line);
+    }
+
+    .message.user {
+      align-self: flex-end;
+      background: var(--user);
+    }
+
+    .message.error {
+      background: rgba(248, 113, 113, 0.14);
+      border: 1px solid rgba(248, 113, 113, 0.35);
+      color: #fecaca;
+    }
+
+    .movie-card {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 10px;
+    }
+
+    .movie-card img {
+      width: 96px;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+
+    .movie-card h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+    }
+
+    .movie-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .movie-card a {
+      display: inline-block;
+      margin-top: 8px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .buttons button {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 9px 12px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .buttons button:hover {
+      border-color: var(--accent);
+    }
+
+    .composer {
+      padding: 16px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      gap: 10px;
+      background: rgba(15, 23, 42, 0.72);
+    }
+
+    .composer input {
+      flex: 1;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      outline: none;
+      font-size: 15px;
+    }
+
+    .composer input::placeholder {
+      color: var(--muted);
+    }
+
+    .composer button {
+      border: none;
+      border-radius: 999px;
+      padding: 0 18px;
+      background: var(--accent);
+      color: #06221a;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .composer button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 0;
+      }
+
+      .chat-shell {
+        height: 100vh;
+        border-radius: 0;
+      }
+
+      .message {
+        max-width: 92%;
+      }
+
+      .movie-card {
+        grid-template-columns: 1fr;
+      }
+
+      .movie-card img {
+        width: 100%;
+        max-height: 320px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="chat-shell">
+    <header class="chat-header">
+      <div class="chat-title">
+        <strong>🎬 Recomendador de películas</strong>
+        <span>QA de conversación, botones y respuestas del bot</span>
+      </div>
+      <div class="status" id="status">Listo</div>
+    </header>
+
+    <section class="messages" id="messages"></section>
+
+    <form class="composer" id="composer">
+      <input
+        id="userInput"
+        type="text"
+        placeholder="Ej: Dame una comedia argentina bien puntuada"
+        autocomplete="off"
+      />
+      <button id="sendButton" type="submit">Enviar</button>
+    </form>
+  </main>
+
+  <script>
+    const WEBHOOK_URL = "https://n8n.gabrielux.com.ar/webhook/movie-chat-agent";
+
+    const messagesEl = document.getElementById("messages");
+    const composerEl = document.getElementById("composer");
+    const inputEl = document.getElementById("userInput");
+    const sendButtonEl = document.getElementById("sendButton");
+    const statusEl = document.getElementById("status");
+
+    const sessionId = getOrCreateSessionId();
+
+    function getOrCreateSessionId() {
+      const existing = localStorage.getItem("movieChatSessionId");
+      if (existing) return existing;
+
+      const created = `qa-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      localStorage.setItem("movieChatSessionId", created);
+      return created;
+    }
+
+    function scrollToBottom() {
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function addMessage(content, sender = "bot", extra = {}) {
+      const messageEl = document.createElement("article");
+      messageEl.className = `message ${sender}`;
+
+      const textEl = document.createElement("div");
+      textEl.textContent = content;
+      messageEl.appendChild(textEl);
+
+      if (extra.movie) {
+        messageEl.appendChild(renderMovie(extra.movie));
+      }
+
+      if (Array.isArray(extra.movies) && extra.movies.length) {
+        extra.movies.forEach(movie => {
+          messageEl.appendChild(renderMovie(movie));
+        });
+      }
+
+      if (Array.isArray(extra.buttons) && extra.buttons.length) {
+        messageEl.appendChild(renderButtons(extra.buttons));
+      }
+
+      messagesEl.appendChild(messageEl);
+      scrollToBottom();
+    }
+
+    function renderMovie(movie) {
+      const card = document.createElement("div");
+      card.className = "movie-card";
+
+      if (movie.poster) {
+        const img = document.createElement("img");
+        img.src = movie.poster;
+        img.alt = movie.title || "Poster de película";
+        card.appendChild(img);
+      }
+
+      const body = document.createElement("div");
+
+      const title = document.createElement("h3");
+      title.textContent = `${movie.title || "Película"}${movie.year ? ` (${movie.year})` : ""}`;
+      body.appendChild(title);
+
+      const meta = document.createElement("p");
+      meta.textContent = [
+        movie.rating ? `⭐ ${movie.rating}` : "",
+        movie.vote_count ? `${movie.vote_count} votos` : ""
+      ].filter(Boolean).join(" · ");
+      body.appendChild(meta);
+
+      if (movie.tmdb_url) {
+        const link = document.createElement("a");
+        link.href = movie.tmdb_url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "Ver en TMDb";
+        body.appendChild(link);
+      }
+
+      card.appendChild(body);
+      return card;
+    }
+
+    function renderButtons(buttons) {
+      const wrap = document.createElement("div");
+      wrap.className = "buttons";
+
+      buttons.forEach(button => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = button.label || button.value || "Opción";
+        btn.addEventListener("click", () => {
+          sendMessage(button.value || button.label);
+        });
+        wrap.appendChild(btn);
+      });
+
+      return wrap;
+    }
+
+    async function sendMessage(message) {
+      const cleanMessage = String(message || "").trim();
+      if (!cleanMessage) return;
+
+      addMessage(cleanMessage, "user");
+
+      inputEl.value = "";
+      inputEl.focus();
+      sendButtonEl.disabled = true;
+      statusEl.textContent = "Pensando...";
+
+      try {
+        const response = await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain"
+          },
+          body: JSON.stringify({
+            message: cleanMessage,
+            sessionId,
+            source: "web-qa"
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        addMessage(data.reply || "No llegó reply en la respuesta.", "bot", {
+          movie: data.movie,
+          movies: data.movies,
+          buttons: data.buttons
+        });
+
+        console.log("Respuesta n8n:", data);
+      } catch (error) {
+        console.error(error);
+        addMessage(
+          "No pude conectar con n8n. Revisá si el workflow está activo, si la URL es correcta o si hay un bloqueo CORS.",
+          "error"
+        );
+      } finally {
+        sendButtonEl.disabled = false;
+        statusEl.textContent = "Listo";
+      }
+    }
+
+    composerEl.addEventListener("submit", event => {
+      event.preventDefault();
+      sendMessage(inputEl.value);
+    });
+
+    addMessage(
+      "🎬 Buenas. Soy tu recomendador de películas.\n\nEstoy para servirte: pedime algo tipo “una comedia argentina bien puntuada”, “algo de mafia”, “una peli con Darín” o “sorprendeme”.",
+      "bot",
+      {
+        buttons: [
+          { label: "🎲 Sorprendeme", value: "sorprendeme con una película" },
+          { label: "🏆 Bien puntuada", value: "dame una película bien puntuada" },
+          { label: "🕵️ Mafia / crimen", value: "dame las mejores pelis de mafiosos" },
+          { label: "🇦🇷 Cine argentino", value: "quiero una comedia argentina" }
+        ]
+      }
+    );
+  </script>
+</body>
+</html>

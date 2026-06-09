@@ -1,0 +1,104 @@
+{
+  "site": {
+    "name": "Gabriel UX",
+    "domain": "gabrielux.com.ar",
+    "language": "es-AR"
+  },
+  "hero": {
+    "eyebrow": "Disponible para proyectos",
+    "title": "Diseño conversacional",
+    "description": "Chatbots, asistentes con IA, flujos, prompts, tono de voz y criterios de calidad.",
+    "chips": [
+      "Botmaker",
+      "n8n",
+      "Figma",
+      "LLMs",
+      "Prompting",
+      "QA CUX"
+    ]
+  },
+  "chatDemo": {
+    "enabled": true,
+    "eyebrow": "Demo interactiva",
+    "title": "Probá una experiencia conversacional",
+    "description": "Este espacio está reservado para integrar un chatbot y mostrar, en vivo, cómo puede funcionar una experiencia conversacional diseñada para un producto digital.",
+    "placeholder": "Próximamente: chatbot conectado con n8n.",
+    "inputPlaceholder": "Escribí un mensaje...",
+    "buttonLabel": "Enviar"
+  },
+  "about": {
+    "eyebrow": "Sobre mí",
+    "title": "UX Writing, conversación e IA aplicada a productos digitales",
+    "description": "Trabajo diseñando experiencias conversacionales para chatbots, asistentes virtuales y flujos digitales. Combino UX Writing, lógica conversacional, documentación funcional, criterios de calidad y automatización con IA para crear interacciones claras, consistentes y fáciles de usar."
+  },
+  "portfolio": {
+    "eyebrow": "Portfolio",
+    "title": "Proyectos destacados",
+    "description": "Algunos proyectos en los que trabajé diseñando experiencias conversacionales para distintos tipos de usuarios, industrias y contextos de uso.",
+    "projects": [
+      {
+        "title": "CARPi — Asistente conversacional para River Plate",
+        "category": "Chatbot deportivo · WhatsApp · Experiencia del hincha",
+        "description": "Diseño de experiencia conversacional para atención, información de estadio, accesos, entradas, gastronomía y otros flujos de alta demanda para socios e hinchas."
+      },
+      {
+        "title": "ADA — Asistente de Aeropuertos Argentina",
+        "category": "Asistente institucional · Atención al usuario · Información operativa",
+        "description": "Diseño conversacional para acompañar consultas vinculadas a vuelos, aeropuertos, servicios, accesos e información útil para pasajeros."
+      },
+      {
+        "title": "BancoChat — Asistente conversacional para Banco Macro",
+        "category": "Banca · Atención digital · Flujos transaccionales",
+        "description": "Diseño y mejora de experiencias conversacionales para consultas bancarias, operaciones frecuentes, mensajes de ayuda y comunicación con usuarios."
+      },
+      {
+        "title": "Meri — Asistente conversacional para Meridional Seguros",
+        "category": "Seguros · Atención digital · Autoservicio",
+        "description": "Diseño conversacional para consultas vinculadas a seguros, asistencia, información de pólizas y recorridos de atención digital."
+      }
+    ]
+  },
+  "quote": {
+    "text": "Un bot bien diseñado no busca parecer humano: busca ser claro, consistente y fácil de usar."
+  },
+  "skills": {
+    "eyebrow": "Skills",
+    "title": "Diseño, producto y automatización",
+    "items": [
+      "UX Writing",
+      "Conversation Design",
+      "Flujos conversacionales",
+      "Intents y fallbacks",
+      "Prompting",
+      "LLMs",
+      "QA conversacional",
+      "Documentación funcional",
+      "Botmaker",
+      "n8n",
+      "Figma",
+      "Prototipado"
+    ]
+  },
+  "experience": {
+    "eyebrow": "Experiencia",
+    "title": "Diseño conversacional para productos reales",
+    "description": "Trabajo en proyectos de atención digital, asistentes conversacionales, automatizaciones y experiencias con IA, con foco en claridad, consistencia, tono de voz, resolución de casos límite y calidad de la experiencia."
+  },
+  "contact": {
+    "eyebrow": "Contacto",
+    "title": "¿Armamos una experiencia conversacional?",
+    "description": "Estoy abierto a proyectos de UX Writing, diseño conversacional, automatización con IA y prototipos de chatbots para productos digitales. Si te interesa conversar, podés contactarme por LinkedIn.",
+    "links": [
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/gabriel-h-alvarez/",
+        "type": "external"
+      },
+      {
+        "label": "Descargar CV",
+        "url": "/cv.pdf",
+        "type": "download"
+      }
+    ]
+  }
+}

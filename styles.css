@@ -133,8 +133,8 @@ h3 { font-size: 1.25rem; }
 }
 
 .hero-card h2 {
-  font-size: clamp(2.2rem, 3.2vw, 3rem);
-  line-height: 1;
+  font-size: clamp(2.05rem, 2.75vw, 2.65rem);
+  line-height: 1.04;
   letter-spacing: -0.055em;
 }
 

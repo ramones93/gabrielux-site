@@ -132,6 +132,12 @@ h3 { font-size: 1.25rem; }
   padding: 28px;
 }
 
+.hero-card h2 {
+  font-size: clamp(2.2rem, 3.2vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.055em;
+}
+
 .status-pill {
   display: inline-flex;
   margin-bottom: 34px;
